@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Analyse ton offre d’emploi : compétences clés, culture d’entreprise et exigences. La première étape de ta candidature avec Élan.">
+  <meta name="theme-color" content="#172c44">
+  <title>Élan — Analyse de l’offre</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Élan, accueil"><span class="brand-symbol" aria-hidden="true">é</span>élan<span class="brand-divider"></span><span class="brand-caption">Ton prochain chapitre.</span></a>
+    <button class="button secondary small" id="settings-button" type="button"><span aria-hidden="true">⚙</span> <span id="connection-label">Connecter ChatGPT</span></button>
+  </header>
+  <main id="main" class="shell">
+    <div class="journey" aria-label="Parcours de candidature">
+      <div id="journey-offer" class="journey-step current" aria-current="step"><span class="step-number">01</span><span>Analyser l’offre<small>Tu es ici</small></span></div>
+      <div id="journey-cv" class="journey-step future"><span class="step-number">02</span><span>Optimiser le CV<small>Après l’analyse</small></span></div>
+      <div class="journey-step future"><span class="step-number">03</span><span>Rédiger la candidature<small>À venir</small></span></div>
+      <div class="journey-step future"><span class="step-number">04</span><span>Préparer l’entretien<small>À venir</small></span></div>
+    </div>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">ÉTAPE 01 · COMPRENDRE AVANT DE CANDIDATER</p>
+      <h1 id="page-title">Repère ce qui fera <br>la <span>différence.</span></h1>
+      <p>Une offre en tête ? Identifie les attentes du recruteur<br class="desktop-break"> pour construire une candidature qui lui parle.</p>
+    </section>
+    <div class="workspace">
+      <section class="input-card" aria-labelledby="input-title">
+        <div class="card-heading"><div><h2 id="input-title">L’offre que tu vises</h2><p>Commence par le texte complet ou son lien.</p></div><span class="document-icon" aria-hidden="true">≡</span></div>
+        <form id="offer-form" novalidate>
+          <fieldset id="input-fields">
+            <legend class="sr-only">Ton offre d’emploi</legend>
+            <div class="mode-switch" aria-label="Format de l’offre">
+              <button id="text-mode" type="button" class="mode active" aria-pressed="true">Coller le texte</button>
+              <button id="url-mode" type="button" class="mode" aria-pressed="false">Depuis un lien</button>
+            </div>
+            <div id="text-panel">
+              <label for="offer-text">Description du poste</label>
+              <textarea id="offer-text" maxlength="35000" rows="10" placeholder="Colle l’offre ici : missions, profil recherché, compétences, présentation de l’entreprise…" aria-describedby="text-help"></textarea>
+              <div class="input-meta"><span id="text-help">Plus l’offre est complète, plus l’analyse est précise.</span><span id="char-count">0 / 35 000</span></div>
+            </div>
+            <div id="url-panel" hidden>
+              <label for="offer-url">Lien public de l’offre</label>
+              <input id="offer-url" type="url" placeholder="https://entreprise.fr/carrieres/offre" autocomplete="off" aria-describedby="url-help">
+              <p class="field-help" id="url-help">Codex essaiera de consulter cette offre sur le Web. Si le site bloque l’accès, colle directement le texte.</p>
+            </div>
+            <div class="form-actions"><button class="text-button" id="example-button" type="button">Utiliser une offre d’exemple</button><button class="button primary" type="submit" id="analyze-button"><span aria-hidden="true">✧</span> Analyser l’offre</button></div>
+          </fieldset>
+          <div class="busy" id="busy" role="status" hidden><span class="spinner" aria-hidden="true"></span><span id="busy-text">Analyse de l’offre en cours…</span><button type="button" class="text-button" id="cancel-button">Annuler</button></div>
+          <p class="error" id="error" role="alert" hidden></p>
+        </form>
+        <div class="privacy-note"><span aria-hidden="true">◈</span><p>L’application fonctionne sur ton PC. À ta demande, l’offre est envoyée à OpenAI via ton abonnement ChatGPT. Internet est nécessaire.</p></div>
+      </section>
+      <aside class="guide" aria-labelledby="guide-title">
+        <span class="tag">TON BRIEF DE CANDIDATURE</span>
+        <h2 id="guide-title">Les bonnes infos.<br>Pour le bon poste.</h2>
+        <ol class="benefits">
+          <li><span class="benefit-number">01</span><div><h3>Jusqu’à 10 compétences clés</h3><p>Jusqu’à 5 savoir-faire et 5 qualités réellement présents dans l’offre.</p></div></li>
+          <li><span class="benefit-number">02</span><div><h3>Le ton à adopter</h3><p>Les indices sur la culture et le style de l’entreprise.</p></div></li>
+          <li><span class="benefit-number">03</span><div><h3>Les critères à remplir</h3><p>Les indispensables, séparés des atouts qui font la différence.</p></div></li>
+        </ol>
+        <div class="coach-note"><span aria-hidden="true">“</span><p>Une bonne candidature commence par une bonne lecture de l’offre.</p></div>
+      </aside>
+    </div>
+    <section id="results" class="results" aria-labelledby="results-title" hidden>
+      <div class="results-heading"><div><p class="eyebrow">TON OFFRE, DÉCRYPTÉE</p><h2 id="results-title" tabindex="-1">L’essentiel pour ta candidature</h2><p id="job-title"></p></div><button id="copy-button" class="button secondary" type="button">Copier l’analyse</button></div>
+      <p id="stale-notice" class="notice" hidden>L’offre a été modifiée. Relance l’analyse pour actualiser ces résultats.</p>
+      <div class="result-section"><h3>[Mots-clés]</h3><p class="section-caption">Jusqu’à 5 hard skills et 5 soft skills, selon le contenu de l’offre</p><div class="skill-groups"><div class="skill-group"><h4>Hard skills</h4><div id="hard-skills" class="keywords"></div></div><div class="skill-group"><h4>Soft skills</h4><div id="soft-skills" class="keywords"></div></div></div></div>
+      <div class="result-section"><h3>[Culture &amp; Ton]</h3><div id="culture"></div></div>
+      <div class="result-section"><h3>[Exigences]</h3><div class="requirements"><div><h4><span class="requirement-mark"></span>Obligatoires</h4><ul id="required-list"></ul></div><div><h4><span class="requirement-mark optional"></span>Atouts souhaités</h4><ul id="preferred-list"></ul></div></div></div>
+      <div class="result-section action-section"><span class="action-icon" aria-hidden="true">02</span><div><h3>[Action]</h3><p>Fournis ton CV actuel pour l’adapter à cette offre sans rien inventer.</p><button id="start-cv-button" class="button primary small" type="button">Passer à l’étape 2</button></div></div>
+      <details id="sources" class="sources"><summary>Consulter le texte utilisé et les sources</summary><div id="source-links"></div><pre id="source-text"></pre></details>
+    </section>
+    <section id="cv-step" class="results cv-step" aria-labelledby="cv-title" hidden>
+      <div class="results-heading"><div><p class="eyebrow">ÉTAPE 02 · PASSER LES FILTRES ATS</p><h2 id="cv-title" tabindex="-1">Optimise ton CV pour cette offre</h2><p>Élan reformule et priorise uniquement ce que ton CV permet de prouver.</p></div></div>
+      <form id="cv-form" novalidate>
+        <fieldset id="cv-fields">
+          <label for="cv-text">Ton CV actuel</label>
+          <textarea id="cv-text" maxlength="60000" rows="14" placeholder="Colle ici le texte complet de ton CV…" aria-describedby="cv-help"></textarea>
+          <div class="input-meta"><span id="cv-help">Tu peux aussi charger un fichier texte .txt ou .md. Les PDF et DOCX seront ajoutés ensuite.</span><span id="cv-char-count">0 / 60 000</span></div>
+          <div class="cv-upload"><label for="cv-file" class="button secondary small">Charger un fichier texte</label><input id="cv-file" type="file" accept=".txt,.md,text/plain,text/markdown"><span id="cv-file-name" class="section-caption"></span></div>
+          <div class="form-actions cv-actions"><button id="back-to-analysis" class="text-button" type="button">Revoir l’analyse</button><button class="button primary" type="submit"><span aria-hidden="true">✧</span> Optimiser mon CV</button></div>
+        </fieldset>
+        <div class="busy" id="cv-busy" role="status" hidden><span class="spinner" aria-hidden="true"></span><span>Optimisation du CV en cours…</span><button type="button" class="text-button" id="cancel-cv-button">Annuler</button></div>
+        <p class="error" id="cv-error" role="alert" hidden></p>
+      </form>
+      <div id="cv-results" class="cv-results" hidden>
+        <div class="results-heading cv-results-heading"><div><p class="eyebrow">CV CIBLÉ</p><h3 id="cv-result-title" tabindex="-1"></h3></div><button id="copy-cv-button" class="button secondary" type="button">Copier le CV optimisé</button></div>
+        <div class="optimized-cv" id="optimized-cv"></div>
+        <div class="result-section"><h3>Modifications expliquées</h3><div id="cv-changes" class="cv-changes"></div></div>
+        <div class="requirements"><div><h4><span class="requirement-mark optional"></span>Mots-clés à vérifier</h4><ul id="missing-keywords"></ul></div><div><h4><span class="requirement-mark"></span>Points de vigilance</h4><ul id="cv-warnings"></ul></div></div>
+      </div>
+    </section>
+    <footer><span>élan <span class="footer-separator">/</span> Une étape à la fois.</span><span>Version 02 · Offre + CV</span></footer>
+  </main>
+  <dialog id="settings-dialog" aria-labelledby="settings-title" aria-describedby="settings-description">
+<div class="dialog-heading"><span class="tag">TON COMPTE CHATGPT</span><button type="button" class="close" id="close-settings" aria-label="Fermer">×</button></div>
+    <h2 id="settings-title">Active ton coach.</h2>
+    <p id="settings-description">Utilise ton abonnement ChatGPT avec Codex, dans les limites de ton forfait. Aucune clé API n’est nécessaire.</p>
+    <p id="account-status" role="status">Vérification de la connexion…</p>
+    <a id="login-link" target="_blank" rel="noopener noreferrer" hidden>Ouvrir la connexion officielle ChatGPT ↗</a>
+    <p class="key-note">La connexion est mémorisée par Codex sur ce PC. Les analyses ne sont pas sauvegardées par Élan ; copie les résultats avant de fermer la page.</p>
+    <div class="dialog-actions"><button type="button" class="text-button" id="refresh-account">Actualiser</button><button type="button" class="button primary" id="login-button">Se connecter</button></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
